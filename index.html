@@ -109,14 +109,23 @@ img.onclick=()=>{
     if(Math.abs(diferenta)>50){
       pozitie=(pozitie+(diferenta<0?1:-1)+poze.length)%poze.length;
       mare.src=poze[pozitie];
+      contor.textContent=(pozitie+1)+' / '+poze.length;
     }
   };
 
   fundal.onclick=e=>{
     if(e.target===fundal)fundal.remove();
   };
-
+let inchide=document.createElement('button');
+inchide.textContent='×';
+inchide.style.cssText='position:absolute;top:25px;right:20px;background:#333;color:white;border:0;border-radius:50%;width:44px;height:44px;font-size:30px;cursor:pointer;z-index:10000;';
+inchide.onclick=()=>fundal.remove();
+fundal.appendChild(inchide);
   fundal.appendChild(mare);
+  let contor=document.createElement('div');
+contor.textContent=(pozitie+1)+' / '+poze.length;
+contor.style.cssText='position:absolute;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:8px 16px;border-radius:20px;font-size:16px;z-index:10000;';
+fundal.appendChild(contor);
   document.body.appendChild(fundal);
 };
 let galerie=document.createElement('div');
