@@ -90,7 +90,35 @@ img.style.objectFit='contain';
   visual.style.flexDirection='column';
 visual.style.gap='10px';
   visual.appendChild(img);
-visual.appendChild(img);
+img.style.cursor='zoom-in';
+img.onclick=()=>{
+  let poze=['IMG_0577.jpeg','lisen-2.PNG','lisen-3.PNG','lisen-4.PNG','lisen-5.PNG','lisen-6.PNG'];
+  let pozitie=poze.indexOf(img.src.split('/').pop());
+  let fundal=document.createElement('div');
+
+  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
+
+  let mare=document.createElement('img');
+  mare.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
+  mare.src=poze[pozitie<0?0:pozitie];
+
+  let inceput=0;
+  fundal.ontouchstart=e=>{inceput=e.touches[0].clientX;};
+  fundal.ontouchend=e=>{
+    let diferenta=e.changedTouches[0].clientX-inceput;
+    if(Math.abs(diferenta)>50){
+      pozitie=(pozitie+(diferenta<0?1:-1)+poze.length)%poze.length;
+      mare.src=poze[pozitie];
+    }
+  };
+
+  fundal.onclick=e=>{
+    if(e.target===fundal)fundal.remove();
+  };
+
+  fundal.appendChild(mare);
+  document.body.appendChild(fundal);
+};
 let galerie=document.createElement('div');
 galerie.style.display='flex';
 galerie.style.gap='5px';
