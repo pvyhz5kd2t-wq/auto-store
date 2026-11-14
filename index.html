@@ -74,7 +74,19 @@ function render(){
 
     let visual=document.createElement('div');
     visual.className='visual';
-    visual.textContent=p[3];
+    
+if(p[1]==='Supporto magnetico LISEN'){
+  let img=document.createElement('img');
+  img.src='IMG_0577.jpeg';
+  img.alt=p[1];
+  img.style.width='100%';
+  img.style.height='100%';
+  img.style.objectFit='contain';
+  visual.appendChild(img);
+}else{
+  visual.textContent=p[3];
+}
+
 
     let d=document.createElement('div');
     d.className='details';
