@@ -102,6 +102,8 @@ visual.style.flexDirection='column';
 visual.style.alignItems='center';
 visual.style.gap='10px';
     img.style.objectFit='contain';
+  img.style.cursor='zoom-in';
+img.onclick=()=>{window.open(img.src,'_blank');};
     visual.appendChild(img);
   
 let galerie=document.createElement('div');
