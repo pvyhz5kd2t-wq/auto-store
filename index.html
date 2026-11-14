@@ -103,6 +103,36 @@ visual.style.alignItems='center';
 visual.style.gap='10px';
     img.style.objectFit='contain';
   img.style.cursor='zoom-in';
+  img.onclick=()=>{
+  const poze=['mohard.PNG','mohard-2.PNG','mohard-3.PNG','mohard-4.PNG','mohard-5.PNG','mohard-6.PNG'];
+  let pozitie=poze.indexOf(img.getAttribute('src'));
+
+  const fundal=document.createElement('div');
+  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
+
+  const mare=document.createElement('img');
+  mare.style.cssText='max-width:95vw;max-height:85vh;object-fit:contain;border-radius:12px;';
+  mare.src=poze[pozitie<0?0:pozitie];
+
+  const inchide=document.createElement('button');
+  inchide.textContent='✕';
+  inchide.style.cssText='position:absolute;top:25px;right:20px;font-size:30px;color:white;background:none;border:0;';
+  inchide.onclick=()=>fundal.remove();
+
+  let startX=0;
+  fundal.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;},{passive:true});
+  fundal.addEventListener('touchend',e=>{
+    const diferenta=e.changedTouches[0].clientX-startX;
+    if(Math.abs(diferenta)>40){
+      pozitie=(pozitie+(diferenta<0?1:-1)+poze.length)%poze.length;
+      mare.src=poze[pozitie];
+    }
+  });
+
+  fundal.appendChild(mare);
+  fundal.appendChild(inchide);
+  document.body.appendChild(fundal);
+};
 
     visual.appendChild(img);
   
