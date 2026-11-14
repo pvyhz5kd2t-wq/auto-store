@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AUTO STORE Italia: idee e accessori utili per la tua auto."><title>AUTO STORE Italia | Accessori auto</title><style>
 :root{--navy:#111c31;--blue:#2765ed;--bg:#f4f7fb;--muted:#657187}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Arial,sans-serif;color:var(--navy)}header{background:#111c31;color:white;padding:18px max(20px,calc((100vw - 1150px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px}header strong{font-size:22px;letter-spacing:.5px}header span{font-size:12px;color:#a9b9d3}.hero{background:linear-gradient(115deg,#172d54,#2456a1);color:white;padding:64px 20px;text-align:center}.hero h1{font-size:clamp(30px,5vw,52px);margin:0 0 12px}.hero p{color:#dce8ff;font-size:17px;margin:0 auto;max-width:650px}.wrap{max-width:1150px;margin:auto;padding:30px 18px}.controls{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.controls input{width:100%;padding:15px 17px;border:1px solid #d8dfec;border-radius:14px;font-size:16px;background:white}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters button{border:1px solid #d5ddec;border-radius:24px;background:white;color:#243651;padding:10px 14px;font-weight:650;cursor:pointer}.filters button.active{background:var(--blue);color:white;border-color:var(--blue)}.count{color:var(--muted);font-size:14px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:18px}.card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px #152b4a0d;border:1px solid #e8edf5;display:flex;flex-direction:column}.visual{height:155px;display:grid;place-items:center;background:linear-gradient(135deg,#e9f0ff,#f7f9fd);font-size:64px}.details{padding:18px;display:flex;flex-direction:column;flex:1}.tag{font-size:12px;color:#3161af;font-weight:700}.details h3{font-size:18px;margin:9px 0}.details p{color:#637087;font-size:14px;line-height:1.55;margin:0 0 18px}.button{margin-top:auto;display:block;background:#e8eefb;color:#5d6b83;text-decoration:none;border-radius:11px;padding:12px;text-align:center;font-weight:700}.button.ready{background:#2464e8;color:white}.notice{margin:34px 0;background:#e9f0fb;padding:20px;border-radius:14px;color:#3d526f;font-size:14px;line-height:1.6}footer{text-align:center;background:#111c31;color:#c3d0e6;padding:28px 18px;font-size:13px}footer strong{color:white} @media(min-width:600px){.controls input{max-width:420px}} 
 
@@ -6,7 +6,7 @@
 <header><strong>🚘 AUTO STORE <span>Italia</span></strong><span>Accessori auto selezionati</span></header>
 <section class="hero">
 <h1>La tua auto, più comoda.</h1>
-<p>Scopri 30 idee per organizzare, proteggere e migliorare ogni viaggio.</p>
+<p>Scopri 31 idee per organizzare, proteggere e migliorare ogni viaggio.</p>
 </section>
 <main class="wrap">
 <h2>Scopri gli accessori</h2>
@@ -29,6 +29,7 @@ Le schede presentano idee di prodotto, non offerte o prezzi verificati.
 </footer>
 <script>
 const catalog=[
+  ['Tecnologia','Supporto magnetico LISEN','Supporto magnetico per smartphone in auto.','📱','https://link.amazon/B08GJpYl5'],
 ['Organizzazione','Organizer tra i sedili','Tieni gli oggetti a portata di mano.','🧰'],['Organizzazione','Organizer per bagagliaio','Più ordine nel vano bagagli.','📦'],['Organizzazione','Portaoggetti per sedile','Spazio pratico per gli accessori.','👜'],['Organizzazione','Portadocumenti auto','Documenti sempre organizzati.','📁'],['Organizzazione','Ganci poggiatesta','Per appendere piccole borse.','🪝'],
 ['Tecnologia','Supporto smartphone','Navigazione più comoda.','📱','https://amzn.to/3WKRpY4'],['Tecnologia','Caricatore USB auto','Ricarica i dispositivi in viaggio.','🔌'],['Tecnologia','Trasmettitore Bluetooth','Audio e chiamate compatibili.','🎵'],['Tecnologia','Telecamera da cruscotto','Una dashcam per i tuoi viaggi.','📷'],['Tecnologia','Aspirapolvere portatile','Pulizia rapida degli interni.','⚡'],
 ['Pulizia','Kit pulizia interni','Accessori per la cura dell’abitacolo.','🧽'],['Pulizia','Panni in microfibra','Per pulire superfici delicate.','🧼'],['Pulizia','Spazzola per cerchi','Per la manutenzione delle ruote.','🛞'],['Pulizia','Tappetini universali','Proteggi il pavimento dell’auto.','🚙'],['Pulizia','Cestino per auto','Raccogli i piccoli rifiuti.','🗑️'],
@@ -36,7 +37,6 @@ const catalog=[
 ['Sicurezza','Giubbotto riflettente','Da tenere a bordo secondo le norme.','🦺'],['Sicurezza','Triangolo emergenza','Accessori per le soste di emergenza.','⚠️'],['Sicurezza','Torcia LED','Illuminazione utile in emergenza.','🔦'],['Sicurezza','Martelletto di emergenza','Da valutare per il kit di sicurezza.','🔨'],['Sicurezza','Manometro pneumatici','Controlla la pressione delle gomme.','📏'],
 ['Viaggio','Borsa termica auto','Per snack e bevande durante il viaggio.','🧊'],['Viaggio','Supporto tablet poggiatesta','Intrattenimento per i passeggeri.','📺'],['Viaggio','Coperta da viaggio','Per le soste e i lunghi tragitti.','🧣'],['Viaggio','Borsa porta cavi','Tieni in ordine i caricabatterie.','🎒'],['Viaggio','Organizer documenti viaggio','Biglietti e documenti in un posto.','🗂️']
 ];
-
 const cats=['Tutti',...new Set(catalog.map(p=>p[0]))];
 let active='Tutti';
 
