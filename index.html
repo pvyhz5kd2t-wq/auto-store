@@ -99,12 +99,31 @@ img.style.objectFit='contain';
     visual.appendChild(img);
 }else if(p[1]==='Mohard Supporto Telefono Auto'){
     let img=document.createElement('img');
-    img.src='mohard.jpg';
+    img.src='mohard.PNG';
     img.alt=p[1];
     img.style.width='100%';
     img.style.height='240px';
     img.style.objectFit='contain';
     visual.appendChild(img);
+  
+let galerie=document.createElement('div');
+galerie.style.display='flex';
+galerie.style.gap='5px';
+galerie.style.overflowX='auto';
+
+['mohard.PNG','mohard-2.PNG','mohard-3.PNG','mohard-4.PNG','mohard-5.PNG','mohard-6.PNG'].forEach(fisier=>{
+  let poza=document.createElement('img');
+  poza.src=fisier;
+  poza.style.width='55px';
+  poza.style.height='55px';
+  poza.style.objectFit='contain';
+  poza.style.cursor='pointer';
+  poza.onclick=()=>{img.src=fisier;};
+  galerie.appendChild(poza);
+});
+
+visual.appendChild(galerie);
+
 }else{
     visual.textContent=p[3];}
 
