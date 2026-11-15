@@ -402,9 +402,9 @@ fundal.addEventListener('touchend',e=>{
   const mare=document.createElement('img');
   const galerie=document.createElement('div');
 
-  vizual.style.height='auto';
-  vizual.style.display='flex';
-  vizual.style.flexDirection='column';
+  visual.style.height='auto';
+  visual.style.display='flex';
+  visual.style.flexDirection='column';
 
   mare.style.cssText='width:100%;height:260px;object-fit:contain;cursor:zoom-in';
   galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;width:100%;padding:8px';
@@ -462,7 +462,7 @@ fundal.addEventListener('touchend',e=>{
   }
 
   mare.onclick=deschide;
-  vizual.append(mare,galerie);
+  visual.append(mare,galerie);
   arata();
 
 }else if(p[1]==='Mohard Supporto Telefono Auto'){
