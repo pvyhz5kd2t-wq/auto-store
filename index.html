@@ -710,12 +710,48 @@ visual.appendChild(galerie);
 
   let pozitie=0;
   arata();
+mare.style.cursor='zoom-in';
 
+mare.onclick=()=>{
+  const fundal=document.createElement('div');
+  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99999;display:flex;align-items:center;justify-content:center;';
+
+  const imagine=document.createElement('img');
+  imagine.src=pozeMRSIGA[pozitie];
+  imagine.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
+
+  const inchide=document.createElement('button');
+  inchide.textContent='×';
+  inchide.style.cssText='position:absolute;top:25px;right:20px;font-size:40px;color:white;background:none;border:0;';
+  inchide.onclick=()=>fundal.remove();
+
+  let startX=0;
+  fundal.ontouchstart=e=>{startX=e.touches[0].clientX;};
+  fundal.ontouchend=e=>{
+    const diferenta=e.changedTouches[0].clientX-startX;
+    if(Math.abs(diferenta)>50){
+      pozitie=(pozitie+(diferenta<0?1:-1)+pozeMRSIGA.length)%pozeMRSIGA.length;
+      arata();
+      imagine.src=pozeMRSIGA[pozitie];
+    }
+  };
+
+  fundal.onclick=e=>{
+    if(e.target===fundal)fundal.remove();
+  };
+
+  fundal.append(imagine,inchide);
+  document.body.appendChild(fundal);
+};
   pozeMRSIGA.forEach((fisier,i)=>{
     const poza=document.createElement('img');
     poza.src=fisier;
     poza.style.cssText='width:55px;height:55px;object-fit:contain;cursor:pointer';
-    poza.onclick=()=>{pozitie=i;arata();};
+    poza.onclick=()=>{
+  pozitie=i;
+  arata();
+  mare.click();
+};
     galerie.appendChild(poza);
   });
 
