@@ -315,6 +315,77 @@ fundal.addEventListener('touchend',e=>{
   fundal.onclick=e=>{if(e.target===fundal)fundal.remove();};
   document.body.appendChild(fundal);
 };
+}else if(p[1]==='Einesin Organizer Sedile Auto con Tavolino'){
+  const pozeEINESIN=[
+    'EINESIN_1.PNG',
+    'EINESIN_2.PNG',
+    'EINESIN_3.PNG',
+    'EINESIN_4.PNG',
+    'EINESIN_5.PNG',
+    'EINESIN_6.PNG'
+  ];
+
+  let img=document.createElement('img');
+  img.src=pozeEINESIN[0];
+  img.alt=p[1];
+  img.style.cssText='width:100%;height:240px;object-fit:contain;cursor:zoom-in;';
+
+  visual.style.cssText='height:auto;display:flex;flex-direction:column;align-items:center;gap:10px;';
+  visual.appendChild(img);
+
+  let galerie=document.createElement('div');
+  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;width:100%;';
+
+  pozeEINESIN.forEach(fisier=>{
+    let poza=document.createElement('img');
+    poza.src=fisier;
+    poza.style.cssText='width:65px;height:65px;object-fit:contain;cursor:pointer;flex-shrink:0;';
+    poza.onclick=()=>{img.src=fisier;};
+    galerie.appendChild(poza);
+  });
+
+  visual.appendChild(galerie);
+
+  img.onclick=()=>{
+    let pozitie=pozeEINESIN.indexOf(img.getAttribute('src'));
+    if(pozitie<0)pozitie=0;
+
+    let fundal=document.createElement('div');
+    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
+
+    let mare=document.createElement('img');
+    mare.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
+
+    let inchide=document.createElement('button');
+    inchide.textContent='×';
+    inchide.style.cssText='position:absolute;top:20px;right:20px;color:white;background:#333;border:0;border-radius:50%;width:44px;height:44px;font-size:30px;';
+    inchide.onclick=()=>fundal.remove();
+
+    let contor=document.createElement('div');
+    contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px;';
+
+    function arata(){
+      mare.src=pozeEINESIN[pozitie];
+      contor.textContent=(pozitie+1)+' / '+pozeEINESIN.length;
+    }
+
+    let startX=0;
+    fundal.addEventListener('touchstart',e=>{
+      startX=e.touches[0].clientX;
+    },{passive:true});
+
+    fundal.addEventListener('touchend',e=>{
+      let diferenta=e.changedTouches[0].clientX-startX;
+      if(Math.abs(diferenta)>40){
+        pozitie=(pozitie+(diferenta<0?1:-1)+pozeEINESIN.length)%pozeEINESIN.length;
+        arata();
+      }
+    });
+
+    fundal.append(mare,inchide,contor);
+    document.body.appendChild(fundal);
+    arata();
+  };
 }else if(p[1]==='Mohard Supporto Telefono Auto'){
     let img=document.createElement('img');
     img.src='mohard.PNG';
