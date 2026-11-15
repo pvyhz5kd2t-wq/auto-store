@@ -147,6 +147,89 @@ galerie.style.width='100%';
 });
 
 visual.appendChild(galerie);
+}else if(p[1]==='Seggiolino Auto Gap Filler Pad'){
+  let pozeGAP=[
+    'GAP_01.PNG',
+    'GAP_02.PNG',
+    'GAP_03.PNG',
+    'GAP_04.PNG',
+    'GAP_05.PNG',
+    'GAP_06.PNG'
+  ];
+  
+let img=document.createElement('img');
+img.src=pozeGAP[0];
+img.alt=p[1];
+img.style.width='100%';
+img.style.height='240px';
+img.style.objectFit='contain';
+img.style.cursor='zoom-in';
+visual.appendChild(img);
+
+let galerie=document.createElement('div');
+galerie.style.display='flex';
+galerie.style.gap='8px';
+galerie.style.overflowX='auto';
+galerie.style.width='100%';
+
+pozeGAP.forEach((fisier,index)=>{
+  let poza=document.createElement('img');
+  poza.src=fisier;
+  poza.style.width='65px';
+  poza.style.height='65px';
+  poza.style.objectFit='contain';
+  poza.style.cursor='pointer';
+  poza.style.flexShrink='0';
+  poza.onclick=()=>{img.src=fisier;};
+  galerie.appendChild(poza);
+});
+
+visual.appendChild(galerie);
+
+img.onclick=()=>{
+  let pozitie=pozeGAP.indexOf(img.src.split('/').pop());
+  if(pozitie<0) pozitie=0;
+
+  let fundal=document.createElement('div');
+  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;';
+
+  let mare=document.createElement('img');
+  mare.src=pozeGAP[pozitie];
+  mare.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
+
+  let inchide=document.createElement('button');
+  inchide.textContent='×';
+  inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:36px;color:white;background:none;border:0;';
+  inchide.onclick=()=>fundal.remove();
+
+  let contor=document.createElement('div');
+  contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px;';
+
+  function arata(){
+    mare.src=pozeGAP[pozitie];
+    contor.textContent=(pozitie+1)+' / '+pozeGAP.length;
+  }
+
+  let startX=0;
+  fundal.addEventListener('touchstart',e=>{
+    startX=e.touches[0].clientX;
+  },{passive:true});
+
+  fundal.addEventListener('touchend',e=>{
+    let diferenta=e.changedTouches[0].clientX-startX;
+    if(Math.abs(diferenta)>50){
+      pozitie=(pozitie+(diferenta<0?1:-1)+pozeGAP.length)%pozeGAP.length;
+      arata();
+    }
+  });
+
+  fundal.appendChild(mare);
+  fundal.appendChild(inchide);
+  fundal.appendChild(contor);
+  document.body.appendChild(fundal);
+  arata();
+};
+
 }else if(p[1]==='Mohard Supporto Telefono Auto'){
     let img=document.createElement('img');
     img.src='mohard.PNG';
