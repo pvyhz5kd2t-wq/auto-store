@@ -237,7 +237,70 @@ img.onclick=()=>{
   document.body.appendChild(fundal);
   arata();
 };
+}else if(p[1]==='ATHLON TOOLS Organizer per bagagliaio'){
+  let pozeATHLON=[
+    'ATHLON_1.PNG',
+    'ATHLON_2.PNG',
+    'ATHLON_3.PNG',
+    'ATHLON_4.PNG',
+    'ATHLON_5.PNG',
+    'ATHLON_6.PNG'
+  ];
+  let img=document.createElement('img');
+img.src=pozeATHLON[0];
+img.alt=p[1];
+img.style.width='100%';
+img.style.height='240px';
+img.style.objectFit='contain';
+img.style.cursor='zoom-in';
 
+visual.style.height='auto';
+visual.style.display='flex';
+visual.style.flexDirection='column';
+visual.style.alignItems='center';
+visual.style.gap='10px';
+visual.appendChild(img);
+
+let galerie=document.createElement('div');
+galerie.style.display='flex';
+galerie.style.gap='8px';
+galerie.style.overflowX='auto';
+galerie.style.width='100%';
+
+pozeATHLON.forEach(fisier=>{
+  let poza=document.createElement('img');
+  poza.src=fisier;
+  poza.style.width='65px';
+  poza.style.height='65px';
+  poza.style.objectFit='contain';
+  poza.style.cursor='pointer';
+  poza.style.flexShrink='0';
+  poza.onclick=()=>{img.src=fisier;};
+  galerie.appendChild(poza);
+});
+
+visual.appendChild(galerie);.
+  img.onclick=()=>{
+  let pozitie=pozeATHLON.indexOf(img.src.split('/').pop());
+  if(pozitie<0) pozitie=0;
+
+  let fundal=document.createElement('div');
+  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99999;display:flex;align-items:center;justify-content:center;';
+
+  let mare=document.createElement('img');
+  mare.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
+  mare.src=pozeATHLON[pozitie];
+
+  let inchide=document.createElement('button');
+  inchide.textContent='×';
+  inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:36px;color:white;background:none;border:0;';
+  inchide.onclick=()=>fundal.remove();
+
+  fundal.appendChild(mare);
+  fundal.appendChild(inchide);
+  fundal.onclick=e=>{if(e.target===fundal)fundal.remove();};
+  document.body.appendChild(fundal);
+};
 }else if(p[1]==='Mohard Supporto Telefono Auto'){
     let img=document.createElement('img');
     img.src='mohard.PNG';
