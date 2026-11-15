@@ -295,7 +295,20 @@ visual.appendChild(galerie);
   inchide.textContent='×';
   inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:36px;color:white;background:none;border:0;';
   inchide.onclick=()=>fundal.remove();
+let startX=0;
 
+fundal.addEventListener('touchstart',e=>{
+  startX=e.touches[0].clientX;
+},{passive:true});
+
+fundal.addEventListener('touchend',e=>{
+  let diferenta=e.changedTouches[0].clientX-startX;
+
+  if(Math.abs(diferenta)>50){
+    pozitie=(pozitie+(diferenta<0?1:-1)+pozeATHLON.length)%pozeATHLON.length;
+    mare.src=pozeATHLON[pozitie];
+  }
+});
   fundal.appendChild(mare);
   fundal.appendChild(inchide);
   fundal.onclick=e=>{if(e.target===fundal)fundal.remove();};
