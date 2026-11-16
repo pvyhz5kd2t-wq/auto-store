@@ -758,6 +758,88 @@ mare.onclick=()=>{
 
   visual.append(mare,galerie);
 
+}else if(p[1]==='URAQT Spazzola per Cerchi Auto in Microfibra'){
+  const pozeURAQT=[
+    'URAQT_1.PNG',
+    'URAQT_2.PNG',
+    'URAQT_3.PNG',
+    'URAQT_4.PNG',
+    'URAQT_5.PNG',
+    'URAQT_6.PNG'
+  ];
+
+  let pozitie=0;
+  const mare=document.createElement('img');
+  const galerie=document.createElement('div');
+
+  visual.style.height='auto';
+  visual.style.display='flex';
+  visual.style.flexDirection='column';
+
+  mare.style.cssText='width:100%;height:220px;object-fit:contain;cursor:zoom-in';
+  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;padding:8px';
+
+  function arata(){
+    mare.src=pozeURAQT[pozitie];
+  }
+  arata();
+
+  mare.onclick=()=>{
+    const fundal=document.createElement('div');
+    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99999;display:flex;align-items:center;justify-content:center';
+
+    const imagine=document.createElement('img');
+    imagine.style.cssText='max-width:95%;max-height:85%;object-fit:contain';
+
+    const inchide=document.createElement('button');
+    inchide.textContent='×';
+    inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:35px;color:white;background:none;border:0';
+
+    const contor=document.createElement('div');
+    contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px';
+
+    function actualizeaza(){
+      imagine.src=pozeURAQT[pozitie];
+      contor.textContent=(pozitie+1)+' / '+pozeURAQT.length;
+    }
+    actualizeaza();
+
+    let startX=0;
+    fundal.addEventListener('touchstart',e=>{
+      startX=e.touches[0].clientX;
+    },{passive:true});
+
+    fundal.addEventListener('touchend',e=>{
+      const diferenta=e.changedTouches[0].clientX-startX;
+      if(Math.abs(diferenta)>50){
+        pozitie=(pozitie+(diferenta<0?1:-1)+pozeURAQT.length)%pozeURAQT.length;
+        actualizeaza();
+        arata();
+      }
+    },{passive:true});
+
+    inchide.onclick=()=>fundal.remove();
+    fundal.onclick=e=>{
+      if(e.target===fundal)fundal.remove();
+    };
+
+    fundal.append(imagine,inchide,contor);
+    document.body.appendChild(fundal);
+  };
+
+  pozeURAQT.forEach((fisier,i)=>{
+    const poza=document.createElement('img');
+    poza.src=fisier;
+    poza.style.cssText='width:55px;height:55px;object-fit:contain;cursor:pointer';
+    poza.onclick=()=>{
+      pozitie=i;
+      arata();
+    };
+    galerie.appendChild(poza);
+  });
+
+  visual.append(mare,galerie);
+
 }else{
     visual.textContent=p[3];}
 
