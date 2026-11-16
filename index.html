@@ -969,24 +969,54 @@ mare.onclick=()=>{
     galerie.appendChild(poza);
   });
 
-  let startX=0;
+  
+  mare.style.cursor='zoom-in';
 
-  mare.addEventListener('touchstart',e=>{
-    startX=e.touches[0].clientX;
-  },{passive:true});
+  mare.onclick=()=>{
+    const fundal=document.createElement('div');
+    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
 
-  mare.addEventListener('touchend',e=>{
-    const diferenta=e.changedTouches[0].clientX-startX;
+    const imagine=document.createElement('img');
+    imagine.style.cssText='max-width:95vw;max-height:85vh;object-fit:contain;';
 
-    if(Math.abs(diferenta)>40){
-      if(diferenta<0){
-        pozitie=(pozitie+1)%fotoFORTEM.length;
-      }else{
-        pozitie=(pozitie-1+fotoFORTEM.length)%fotoFORTEM.length;
-      }
-      arata();
+    const inchide=document.createElement('button');
+    inchide.textContent='×';
+    inchide.style.cssText='position:absolute;top:20px;right:20px;background:#333;color:white;border:0;border-radius:50%;width:45px;height:45px;font-size:32px;z-index:100000;';
+    inchide.onclick=()=>fundal.remove();
+
+    const contor=document.createElement('div');
+    contor.style.cssText='position:absolute;bottom:30px;color:white;font-size:18px;background:#333;padding:8px 16px;border-radius:20px;';
+
+    function actualizeaza(){
+      imagine.src=fotoFORTEM[pozitie];
+      contor.textContent=(pozitie+1)+' / '+fotoFORTEM.length;
     }
-  },{passive:true});
+
+    let startX=0;
+
+    fundal.addEventListener('touchstart',e=>{
+      startX=e.touches[0].clientX;
+    },{passive:true});
+
+    fundal.addEventListener('touchend',e=>{
+      const diferenta=e.changedTouches[0].clientX-startX;
+
+      if(Math.abs(diferenta)>40){
+        pozitie=(pozitie+(diferenta<0?1:-1)+fotoFORTEM.length)%fotoFORTEM.length;
+        actualizeaza();
+        arata();
+      }
+    },{passive:true});
+
+    fundal.onclick=e=>{
+      if(e.target===fundal)fundal.remove();
+    };
+
+    fundal.append(imagine,inchide,contor);
+    document.body.appendChild(fundal);
+    actualizeaza();
+  };
+
 
   visual.append(mare,galerie);
   arata();
