@@ -926,6 +926,73 @@ mare.onclick=()=>{
   visual.append(mare,galerie);
   arata();
 
+else if(p[1]==='FORTEM Cuscino Lombare'){
+
+  visual.style.cssText=
+    'height:auto;display:flex;flex-direction:column;padding:0;background:#eef2ff;';
+
+  const fotoFORTEM=[
+    'FORTEM_AUTO_01.PNG',
+    'FORTEM_AUTO_02.PNG',
+    'FORTEM_AUTO_03.PNG',
+    'FORTEM_AUTO_04.PNG',
+    'FORTEM_AUTO_05.PNG',
+    'FORTEM_AUTO_06.PNG'
+  ];
+
+  let pozitie=0;
+
+  const mare=document.createElement('img');
+  mare.style.cssText=
+    'width:100%;height:240px;object-fit:contain;cursor:pointer;display:block;';
+
+  const galerie=document.createElement('div');
+  galerie.style.cssText=
+    'display:flex;gap:7px;overflow-x:auto;padding:10px;width:100%;';
+
+  function arata(){
+    mare.src=fotoFORTEM[pozitie];
+  }
+
+  fotoFORTEM.forEach((fisier,i)=>{
+    const poza=document.createElement('img');
+    poza.src=fisier;
+    poza.loading='lazy';
+    poza.style.cssText=
+      'width:55px;height:55px;object-fit:cover;cursor:pointer;flex-shrink:0;border-radius:5px;';
+
+    poza.onclick=()=>{
+      pozitie=i;
+      arata();
+    };
+
+    galerie.appendChild(poza);
+  });
+
+  let startX=0;
+
+  mare.addEventListener('touchstart',e=>{
+    startX=e.touches[0].clientX;
+  },{passive:true});
+
+  mare.addEventListener('touchend',e=>{
+    const diferenta=e.changedTouches[0].clientX-startX;
+
+    if(Math.abs(diferenta)>40){
+      if(diferenta<0){
+        pozitie=(pozitie+1)%fotoFORTEM.length;
+      }else{
+        pozitie=(pozitie-1+fotoFORTEM.length)%fotoFORTEM.length;
+      }
+      arata();
+    }
+  },{passive:true});
+
+  visual.append(mare,galerie);
+  arata();
+
+}
+
 }else{
   visual.textContent=p[3];
 }
