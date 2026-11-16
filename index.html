@@ -532,7 +532,7 @@ pozeURAQT.forEach(fisier=>{
 
     fundal.addEventListener('touchend',e=>{
       const diferenta=e.changedTouches[0].clientX-startX;
-      if(Math.abs(diferenta)>40){
+      if(Math.abs(diferenta)>25){
         pozitie=(pozitie+(diferenta<0?1:-1)+pozeURAQT.length)%pozeURAQT.length;
         actualizeaza();
       }
