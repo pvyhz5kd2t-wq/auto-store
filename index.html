@@ -520,7 +520,11 @@ fundal.addEventListener('touchend',e=>{
       imagine.src=pozeURAQT[pozitie];
       contor.textContent=(pozitie+1)+' / '+pozeURAQT.length;
     }
-
+    // Pregatim fotografiile pentru glisare
+pozeURAQT.forEach(fisier=>{
+  const pozaPregatita=new Image();
+  pozaPregatita.src=fisier;
+});
     let startX=0;
     fundal.addEventListener('touchstart',e=>{
       startX=e.touches[0].clientX;
