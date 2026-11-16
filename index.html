@@ -1,886 +1,756 @@
+
 <!DOCTYPE html>
-<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AUTO STORE Italia: idee e accessori utili per la tua auto."><title>AUTO STORE Italia | Accessori auto</title><style>
-:root{--navy:#111c31;--blue:#2765ed;--bg:#f4f7fb;--muted:#657187}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Arial,sans-serif;color:var(--navy)}header{background:#111c31;color:white;padding:18px max(20px,calc((100vw - 1150px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px}header strong{font-size:22px;letter-spacing:.5px}header span{font-size:12px;color:#a9b9d3}.hero{background:linear-gradient(115deg,#172d54,#2456a1);color:white;padding:64px 20px;text-align:center}.hero h1{font-size:clamp(30px,5vw,52px);margin:0 0 12px}.hero p{color:#dce8ff;font-size:17px;margin:0 auto;max-width:650px}.wrap{max-width:1150px;margin:auto;padding:30px 18px}.controls{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.controls input{width:100%;padding:15px 17px;border:1px solid #d8dfec;border-radius:14px;font-size:16px;background:white}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters button{border:1px solid #d5ddec;border-radius:24px;background:white;color:#243651;padding:10px 14px;font-weight:650;cursor:pointer}.filters button.active{background:var(--blue);color:white;border-color:var(--blue)}.count{color:var(--muted);font-size:14px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:18px}.card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px #152b4a0d;border:1px solid #e8edf5;display:flex;flex-direction:column}.visual{height:155px;display:grid;place-items:center;background:linear-gradient(135deg,#e9f0ff,#f7f9fd);font-size:64px}.details{padding:18px;display:flex;flex-direction:column;flex:1}.tag{font-size:12px;color:#3161af;font-weight:700}.details h3{font-size:18px;margin:9px 0}.details p{color:#637087;font-size:14px;line-height:1.55;margin:0 0 18px}.button{margin-top:auto;display:block;background:#e8eefb;color:#5d6b83;text-decoration:none;border-radius:11px;padding:12px;text-align:center;font-weight:700}.button.ready{background:#2464e8;color:white}.notice{margin:34px 0;background:#e9f0fb;padding:20px;border-radius:14px;color:#3d526f;font-size:14px;line-height:1.6}footer{text-align:center;background:#111c31;color:#c3d0e6;padding:28px 18px;font-size:13px}footer strong{color:white} @media(min-width:600px){.controls input{max-width:420px}} 
-
-</style></head><body>
-<header><strong>🚘 AUTO STORE <span>Italia</span></strong><span>Accessori auto selezionati</span></header>
-<section class="hero">
-<h1>La tua auto, più comoda.</h1>
-<p>Scopri 31 idee per organizzare, proteggere e migliorare ogni viaggio.</p>
-</section>
-<main class="wrap">
-<h2>Scopri gli accessori</h2>
-<div class="controls">
-<input id="search" placeholder="🔎 Cerca un prodotto..." aria-label="Cerca un prodotto">
-</div>
-<div class="filters" id="filters"></div>
-<p class="count" id="count"></p>
-<section class="grid" id="grid" aria-label="Prodotti"></section>
-<aside class="notice">
-<strong>Trasparenza:</strong>
-In qualità di Affiliato Amazon, ricevo un guadagno dagli acquisti idonei.
-Alcuni link presenti su questo sito sono link di affiliazione.
-Le schede presentano idee di prodotto, non offerte o prezzi verificati.
-</aside>
-</main>
-<footer>
-<strong>AUTO STORE Italia</strong>
-<p>Idee e accessori per la tua auto · © 2026</p>
-</footer>
-<script>
-const catalog=[
-  ['Tecnologia','Supporto magnetico LISEN','Supporto magnetico per smartphone con rotazione a 360°, design pieghevole e fissaggio a ventosa. Pratico per la navigazione durante i viaggi in auto.','📱','https://link.amazon/B095SMPBw'],
-['Organizzazione','Seggiolino Auto Gap Filler Pad','Impedisce a chiavi, monete e piccoli oggetti di cadere tra i sedili.','🚗','https://www.amazon.it/dp/B09L11HDWT?tag=autostoreital-21'],
-['Organizzazione','ATHLON TOOLS Organizer per bagagliaio','Organizza il bagagliaio della tua auto con ATHLON TOOLS! Pratico e pieghevole, con struttura rinforzata, superficie antiscivolo e comode maniglie per il trasporto. Ideale per tenere in ordine accessori, spesa e oggetti di uso quotidiano.','📦','https://www.amazon.it/dp/B09ZHVSV9V?tag=autostoreital-21']
-,['Organizzazione','Einesin Organizer Sedile Auto con Tavolino','Rendi ogni viaggio più comodo e organizzato con Einesin! Questo pratico organizer per il retro del sedile è dotato di tavolino pieghevole, tasca trasparente per tablet e scomparti per bevande, giochi e piccoli accessori. Aiuta a proteggere lo schienale da sporco e impronte ed è ideale per i viaggi in famiglia, soprattutto con bambini.','👜','https://www.amazon.it/dp/B0DDK94RFG?tag=autostoreital-21'],
-['Organizzazione','Pubblimania Portadocumenti Auto Moto','Tieni tutti i documenti della tua auto sempre in ordine con il portadocumenti Pubblimania, realizzato in Italia. Dotato di chiusura a due ante e pratiche tasche interne per libretto di circolazione, patente, assicurazione e altri documenti importanti. Compatto, elegante e comodo da tenere nel vano portaoggetti.','📁','https://www.amazon.it/dp/B0CL7GZHS1?tag=autostoreital-21']
-,
-['Organizzazione','URAQT Ganci Poggiatesta Auto – Set da 4','Mantieni la tua auto sempre ordinata con i pratici ganci poggiatesta URAQT! Il set comprende 4 ganci resistenti, ideali per appendere borse della spesa, zaini, borsette e piccoli accessori. Si installano facilmente ai poggiatesta dei sedili anteriori, senza bisogno di attrezzi. Una soluzione semplice e funzionale per evitare che gli oggetti cadano durante il viaggio e sfruttare meglio lo spazio all’interno dell’auto.','🪝','https://www.amazon.it/dp/B0C555GQXZ?tag=autostoreital-21'],
-
-['Tecnologia','Mohard Supporto Telefono Auto','Supporto per smartphone da auto con fissaggio alla bocchetta dell’aria, rotazione a 360° e presa stabile. Compatibile con telefoni da 4 a 7 pollici.','📱','https://link.amazon/B02RqcWYM'],
-
-['Pulizia','Furniture Clinic Kit Pulizia Interni Auto in Pelle','Prenditi cura degli interni della tua auto con il kit Furniture Clinic! Questo pratico set comprende un detergente per pelle da 250 ml, un balsamo protettivo da 250 ml e accessori riutilizzabili per l’applicazione. Ideale per pulire, nutrire e proteggere sedili e rivestimenti in pelle, aiutando a mantenerli in buone condizioni nel tempo. Una soluzione completa per la manutenzione degli interni della tua auto.','🧽','https://www.amazon.it/dp/B08W4KSQ53?tag=autostoreital-21']
-,
-['Pulizia','MR.SIGA Panni Microfibra – Set da 12','Mantieni la tua auto pulita con i panni in microfibra MR.SIGA! Questa confezione comprende 12 panni neri da 32 × 32 cm, morbidi, assorbenti e riutilizzabili. Ideali per la pulizia di cruscotto, vetri, specchietti e altre superfici delicate. Aiutano a rimuovere polvere e sporco senza lasciare pelucchi e possono essere lavati e riutilizzati più volte.','🧽','https://www.amazon.it/dp/B09573GMW6?tag=autostoreital-21&linkCode=ll2&linkId=dd1fd8cb4d258b3a4e9ca76a0ddf95c5']
-,['Pulizia','URAQT Spazzola per Cerchi Auto in Microfibra','Prenditi cura dei cerchi della tua auto con la spazzola URAQT in microfibra! Pratica per rimuovere polvere, sporco e residui dalla superficie dei cerchioni. Ideale per la pulizia regolare delle ruote e per raggiungere le zone più difficili. Un accessorio utile per mantenere i cerchi puliti e curati.',
- '🛞','https://www.amazon.it/dp/B09JZM33WK?tag=autostoreital-21'],['Pulizia','Tappetini universali','Proteggi il pavimento dell’auto.','🚙'],['Pulizia','Cestino per auto','Raccogli i piccoli rifiuti.','🗑️'],
-['Comfort','Cuscino lombare','Supporto per viaggi lunghi.','💺'],['Comfort','Parasole parabrezza','Aiuta a schermare il sole.','☀️'],['Comfort','Tendine laterali','Più ombra per i passeggeri.','🌤️'],['Comfort','Copris sedile','Protezione aggiuntiva del sedile.','🪑'],['Comfort','Portabicchieri aggiuntivo','Bevande più a portata di mano.','🥤'],
-['Sicurezza','Giubbotto riflettente','Da tenere a bordo secondo le norme.','🦺'],['Sicurezza','Triangolo emergenza','Accessori per le soste di emergenza.','⚠️'],['Sicurezza','Torcia LED','Illuminazione utile in emergenza.','🔦'],['Sicurezza','Martelletto di emergenza','Da valutare per il kit di sicurezza.','🔨'],['Sicurezza','Manometro pneumatici','Controlla la pressione delle gomme.','📏'],
-['Viaggio','Borsa termica auto','Per snack e bevande durante il viaggio.','🧊'],['Viaggio','Supporto tablet poggiatesta','Intrattenimento per i passeggeri.','📺'],['Viaggio','Coperta da viaggio','Per le soste e i lunghi tragitti.','🧣'],['Viaggio','Borsa porta cavi','Tieni in ordine i caricabatterie.','🎒'],['Viaggio','Organizer documenti viaggio','Biglietti e documenti in un posto.','🗂️']
-];
-const cats=['Tutti',...new Set(catalog.map(p=>p[0]))];
-let active='Tutti';
-
-const grid=document.getElementById('grid');
-const filters=document.getElementById('filters');
-const search=document.getElementById('search');
-
-function render(){
-  filters.innerHTML='';
-
-  cats.forEach(c=>{
-    let b=document.createElement('button');
-    b.textContent=c;
-    b.className=c===active?'active':'';
-    b.onclick=()=>{
-      active=c;
-      render();
-    };
-    filters.appendChild(b);
-  });
-
-  let q=search.value.trim().toLocaleLowerCase('it');
-
-  let rows=catalog.filter(p=>
-    (active==='Tutti'||p[0]===active)&&
-    p.slice(0,4).join(' ').toLocaleLowerCase('it').includes(q)
-  );
-
-  document.getElementById('count').textContent=rows.length+' prodotti';
-  grid.innerHTML='';
-
-  rows.forEach(p=>{
-    let card=document.createElement('article');
-    card.className='card';
-
-    let visual=document.createElement('div');
-    visual.className='visual';
-    
-if(p[1]==='Supporto magnetico LISEN'){
-  let img=document.createElement('img');
-  img.src='IMG_0577.jpeg';
-  img.alt=p[1];
-  
-img.style.width='100%';
-img.style.height='240px';
-visual.style.height='auto';
-visual.style.display='flex';
-visual.style.alignItems='center';
-visual.style.justifyContent='center';
-img.style.objectFit='contain';
-  visual.style.flexDirection='column';
-visual.style.gap='10px';
-  visual.appendChild(img);
-img.style.cursor='zoom-in';
-img.onclick=()=>{
-  let poze=['IMG_0577.jpeg','lisen-2.PNG','lisen-3.PNG','lisen-4.PNG','lisen-5.PNG','lisen-6.PNG'];
-  let pozitie=poze.indexOf(img.src.split('/').pop());
-  let fundal=document.createElement('div');
-
-  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
-
-  let mare=document.createElement('img');
-  mare.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
-  mare.src=poze[pozitie<0?0:pozitie];
-
-  let inceput=0;
-  fundal.ontouchstart=e=>{inceput=e.touches[0].clientX;};
-  fundal.ontouchend=e=>{
-    let diferenta=e.changedTouches[0].clientX-inceput;
-    if(Math.abs(diferenta)>50){
-      pozitie=(pozitie+(diferenta<0?1:-1)+poze.length)%poze.length;
-      mare.src=poze[pozitie];
-      contor.textContent=(pozitie+1)+' / '+poze.length;
-    }
-  };
-
-  fundal.onclick=e=>{
-    if(e.target===fundal)fundal.remove();
-  };
-let inchide=document.createElement('button');
-inchide.textContent='×';
-inchide.style.cssText='position:absolute;top:25px;right:20px;background:#333;color:white;border:0;border-radius:50%;width:44px;height:44px;font-size:30px;cursor:pointer;z-index:10000;';
-inchide.onclick=()=>fundal.remove();
-fundal.appendChild(inchide);
-  fundal.appendChild(mare);
-  let contor=document.createElement('div');
-contor.textContent=(pozitie+1)+' / '+poze.length;
-contor.style.cssText='position:absolute;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:8px 16px;border-radius:20px;font-size:16px;z-index:10000;';
-fundal.appendChild(contor);
-  document.body.appendChild(fundal);
-};
-let galerie=document.createElement('div');
-galerie.style.display='flex';
-galerie.style.gap='5px';
-galerie.style.overflowX='auto';
-galerie.style.width='100%';
-
-['IMG_0577.jpeg','lisen-2.PNG','lisen-3.PNG','lisen-4.PNG','lisen-5.PNG','lisen-6.PNG'].forEach(fisier=>{
-  let poza=document.createElement('img');
-  poza.src=fisier;
-  poza.style.width='55px';
-  poza.style.height='55px';
-  poza.style.objectFit='contain';
-  poza.style.cursor='pointer';
-  poza.style.flexShrink='0';
-  poza.onclick=()=>{img.src=fisier;};
-  galerie.appendChild(poza);
-});
-
-visual.appendChild(galerie);
-}else if(p[1]==='Seggiolino Auto Gap Filler Pad'){
-  let pozeGAP=[
-    'GAP_01.PNG',
-    'GAP_02.PNG',
-    'GAP_03.PNG',
-    'GAP_04.PNG',
-    'GAP_05.PNG',
-    'GAP_06.PNG'
-  ];
-  
-let img=document.createElement('img');
-img.src=pozeGAP[0];
-img.alt=p[1];
-img.style.width='100%';
-img.style.height='240px';
-visual.style.height='auto';
-visual.style.display='flex';
-visual.style.flexDirection='column';
-visual.style.alignItems='center';
-visual.style.gap='10px';
-
-img.style.objectFit='contain';
-img.style.cursor='zoom-in';
-visual.appendChild(img);
-
-let galerie=document.createElement('div');
-galerie.style.display='flex';
-galerie.style.gap='8px';
-galerie.style.overflowX='auto';
-galerie.style.width='100%';
-
-pozeGAP.forEach((fisier,index)=>{
-  let poza=document.createElement('img');
-  poza.src=fisier;
-  poza.style.width='65px';
-  poza.style.height='65px';
-  poza.style.objectFit='contain';
-  poza.style.cursor='pointer';
-  poza.style.flexShrink='0';
-  poza.onclick=()=>{img.src=fisier;};
-  galerie.appendChild(poza);
-});
-
-visual.appendChild(galerie);
-
-img.onclick=()=>{
-  let pozitie=pozeGAP.indexOf(img.src.split('/').pop());
-  if(pozitie<0) pozitie=0;
-
-  let fundal=document.createElement('div');
-  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;';
-
-  let mare=document.createElement('img');
-  mare.src=pozeGAP[pozitie];
-  mare.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
-
-  let inchide=document.createElement('button');
-  inchide.textContent='×';
-  inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:36px;color:white;background:none;border:0;';
-  inchide.onclick=()=>fundal.remove();
-
-  let contor=document.createElement('div');
-  contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px;';
-
-  function arata(){
-    mare.src=pozeGAP[pozitie];
-    contor.textContent=(pozitie+1)+' / '+pozeGAP.length;
-  }
-
-  let startX=0;
-  fundal.addEventListener('touchstart',e=>{
-    startX=e.touches[0].clientX;
-  },{passive:true});
-
-  fundal.addEventListener('touchend',e=>{
-    let diferenta=e.changedTouches[0].clientX-startX;
-    if(Math.abs(diferenta)>50){
-      pozitie=(pozitie+(diferenta<0?1:-1)+pozeGAP.length)%pozeGAP.length;
-      arata();
-    }
-  });
-
-  fundal.appendChild(mare);
-  fundal.appendChild(inchide);
-  fundal.appendChild(contor);
-  document.body.appendChild(fundal);
-  arata();
-};
-}else if(p[1]==='ATHLON TOOLS Organizer per bagagliaio'){
-  let pozeATHLON=[
-    'ATHLON_1.PNG',
-    'ATHLON_2.PNG',
-    'ATHLON_3.PNG',
-    'ATHLON_4.PNG',
-    'ATHLON_5.PNG',
-    'ATHLON_6.PNG'
-  ];
-  let img=document.createElement('img');
-img.src=pozeATHLON[0];
-img.alt=p[1];
-img.style.width='100%';
-img.style.height='240px';
-img.style.objectFit='contain';
-img.style.cursor='zoom-in';
-
-visual.style.height='auto';
-visual.style.display='flex';
-visual.style.flexDirection='column';
-visual.style.alignItems='center';
-visual.style.gap='10px';
-visual.appendChild(img);
-
-let galerie=document.createElement('div');
-galerie.style.display='flex';
-galerie.style.gap='8px';
-galerie.style.overflowX='auto';
-galerie.style.width='100%';
-
-pozeATHLON.forEach(fisier=>{
-  let poza=document.createElement('img');
-  poza.src=fisier;
-  poza.style.width='65px';
-  poza.style.height='65px';
-  poza.style.objectFit='contain';
-  poza.style.cursor='pointer';
-  poza.style.flexShrink='0';
-  poza.onclick=()=>{img.src=fisier;};
-  galerie.appendChild(poza);
-});
-
-visual.appendChild(galerie);
-  img.onclick=()=>{
-  let pozitie=pozeATHLON.indexOf(img.src.split('/').pop());
-  if(pozitie<0) pozitie=0;
-
-  let fundal=document.createElement('div');
-  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99999;display:flex;align-items:center;justify-content:center;';
-
-  let mare=document.createElement('img');
-  mare.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
-  mare.src=pozeATHLON[pozitie];
-
-  let inchide=document.createElement('button');
-  inchide.textContent='×';
-  inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:36px;color:white;background:none;border:0;';
-  inchide.onclick=()=>fundal.remove();
-let startX=0;
-
-fundal.addEventListener('touchstart',e=>{
-  startX=e.touches[0].clientX;
-},{passive:true});
-
-fundal.addEventListener('touchend',e=>{
-  let diferenta=e.changedTouches[0].clientX-startX;
-
-  if(Math.abs(diferenta)>50){
-    pozitie=(pozitie+(diferenta<0?1:-1)+pozeATHLON.length)%pozeATHLON.length;
-    mare.src=pozeATHLON[pozitie];
-  }
-});
-  fundal.appendChild(mare);
-  fundal.appendChild(inchide);
-  fundal.onclick=e=>{if(e.target===fundal)fundal.remove();};
-  document.body.appendChild(fundal);
-};
-}else if(p[1]==='Einesin Organizer Sedile Auto con Tavolino'){
-  const pozeEINESIN=[
-    'EINESIN_1.PNG',
-    'EINESIN_2.PNG',
-    'EINESIN_3.PNG',
-    'EINESIN_4.PNG',
-    'EINESIN_5.PNG',
-    'EINESIN_6.PNG'
-  ];
-
-  let img=document.createElement('img');
-  img.src=pozeEINESIN[0];
-  img.alt=p[1];
-  img.style.cssText='width:100%;height:240px;object-fit:contain;cursor:zoom-in;';
-
-  visual.style.cssText='height:auto;display:flex;flex-direction:column;align-items:center;gap:10px;';
-  visual.appendChild(img);
-
-  let galerie=document.createElement('div');
-  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;width:100%;';
-
-  pozeEINESIN.forEach(fisier=>{
-    let poza=document.createElement('img');
-    poza.src=fisier;
-    poza.style.cssText='width:65px;height:65px;object-fit:contain;cursor:pointer;flex-shrink:0;';
-    poza.onclick=()=>{img.src=fisier;};
-    galerie.appendChild(poza);
-  });
-
-  visual.appendChild(galerie);
-
-  img.onclick=()=>{
-    let pozitie=pozeEINESIN.indexOf(img.getAttribute('src'));
-    if(pozitie<0)pozitie=0;
-
-    let fundal=document.createElement('div');
-    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
-
-    let mare=document.createElement('img');
-    mare.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
-
-    let inchide=document.createElement('button');
-    inchide.textContent='×';
-    inchide.style.cssText='position:absolute;top:20px;right:20px;color:white;background:#333;border:0;border-radius:50%;width:44px;height:44px;font-size:30px;';
-    inchide.onclick=()=>fundal.remove();
-
-    let contor=document.createElement('div');
-    contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px;';
-
-    function arata(){
-      mare.src=pozeEINESIN[pozitie];
-      contor.textContent=(pozitie+1)+' / '+pozeEINESIN.length;
-    }
-
-    let startX=0;
-    fundal.addEventListener('touchstart',e=>{
-      startX=e.touches[0].clientX;
-    },{passive:true});
-
-    fundal.addEventListener('touchend',e=>{
-      let diferenta=e.changedTouches[0].clientX-startX;
-      if(Math.abs(diferenta)>40){
-        pozitie=(pozitie+(diferenta<0?1:-1)+pozeEINESIN.length)%pozeEINESIN.length;
-        arata();
-      }
-    });
-
-    fundal.append(mare,inchide,contor);
-    document.body.appendChild(fundal);
-    arata();
-  };
-  
-}else if(p[1]==='Pubblimania Portadocumenti Auto Moto'){
-  const pozePUBBLIMANIA=[
-    'PUBBLIMANIA_1.PNG',
-    'PUBBLIMANIA_2.PNG',
-    'PUBBLIMANIA_3.PNG',
-    'PUBBLIMANIA_4.PNG',
-    'PUBBLIMANIA_5.PNG',
-    'PUBBLIMANIA_6.PNG'
-  ];
-
-  let pozitie=0;
-  const mare=document.createElement('img');
-  const galerie=document.createElement('div');
-
-  visual.style.height='auto';
-  visual.style.display='flex';
-  visual.style.flexDirection='column';
-
-  mare.style.cssText='width:100%;height:300px;object-fit:contain;cursor:zoom-in';
-  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;width:100%;padding:8px';
-
-  function arata(){
-    mare.src=pozePUBBLIMANIA[pozitie];
-  }
-
-  pozePUBBLIMANIA.forEach((fisier,i)=>{
-    const poza=document.createElement('img');
-    poza.src=fisier;
-    poza.style.cssText='width:65px;height:65px;object-fit:cover;cursor:pointer;flex-shrink:0';
-    poza.onclick=()=>{pozitie=i;arata();};
-    galerie.appendChild(poza);
-  });
-
-  function deschide(){
-    const fundal=document.createElement('div');
-    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center';
-
-    const imagine=document.createElement('img');
-    imagine.style.cssText='max-width:95%;max-height:85%;object-fit:contain';
-
-    const inchide=document.createElement('button');
-    inchide.textContent='×';
-    inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:36px;color:white;background:none;border:0';
-
-    const contor=document.createElement('div');
-    contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px';
-
-    function actualizeaza(){
-      imagine.src=pozePUBBLIMANIA[pozitie];
-      contor.textContent=(pozitie+1)+' / '+pozePUBBLIMANIA.length;
-    }
-
-    inchide.onclick=()=>fundal.remove();
-    fundal.onclick=e=>{if(e.target===fundal)fundal.remove();};
-
-    let startX=0;
-    fundal.addEventListener('touchstart',e=>{
-      startX=e.touches[0].clientX;
-    },{passive:true});
-
-    fundal.addEventListener('touchend',e=>{
-      const diferenta=e.changedTouches[0].clientX-startX;
-      if(Math.abs(diferenta)>40){
-        pozitie=(pozitie+(diferenta<0?1:-1)+pozePUBBLIMANIA.length)%pozePUBBLIMANIA.length;
-        actualizeaza();
-      }
-    });
-
-    fundal.append(imagine,inchide,contor);
-    document.body.appendChild(fundal);
-    actualizeaza();
-  }
-
-  mare.onclick=deschide;
-  visual.append(mare,galerie);
-  arata();
-
-}else if(p[1]==='URAQT Ganci Poggiatesta Auto – Set da 4'){
-  const pozeURAQT=[
-    'URAQT_1.PNG',
-    'URAQT_2.PNG',
-    'URAQT_3.PNG',
-    'URAQT_4.PNG',
-    'URAQT_5.PNG',
-    'URAQT_6.PNG'
-  ];
-
-  let pozitie=0;
-  const mare=document.createElement('img');
-  const galerie=document.createElement('div');
-
-  visual.style.cssText='height:auto;display:flex;flex-direction:column;align-items:center;gap:10px;';
-  mare.style.cssText='width:100%;height:260px;object-fit:contain;cursor:zoom-in;';
-  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;width:100%;padding:8px;';
-
-  function arata(){
-    mare.src=pozeURAQT[pozitie];
-  }
-
-  pozeURAQT.forEach((fisier,i)=>{
-    const poza=document.createElement('img');
-    poza.src=fisier;
-    poza.style.cssText='width:65px;height:65px;object-fit:contain;cursor:pointer;flex-shrink:0;';
-    poza.onclick=()=>{pozitie=i;arata();};
-    galerie.appendChild(poza);
-  });
-
-  mare.onclick=()=>{
-    const fundal=document.createElement('div');
-    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;';
-
-    const imagine=document.createElement('img');
-    imagine.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
-
-    const inchide=document.createElement('button');
-    inchide.textContent='×';
-    inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:36px;color:white;background:none;border:0;';
-    inchide.onclick=()=>fundal.remove();
-
-    const contor=document.createElement('div');
-    contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px;';
-
-    function actualizeaza(){
-      imagine.src=pozeURAQT[pozitie];
-      contor.textContent=(pozitie+1)+' / '+pozeURAQT.length;
-    }
-
-    let startX=0;
-    fundal.addEventListener('touchstart',e=>{
-      startX=e.touches[0].clientX;
-    },{passive:true});
-
-    fundal.addEventListener('touchend',e=>{
-      const diferenta=e.changedTouches[0].clientX-startX;
-      if(Math.abs(diferenta)>40){
-        pozitie=(pozitie+(diferenta<0?1:-1)+pozeURAQT.length)%pozeURAQT.length;
-        actualizeaza();
-      }
-    });
-
-    fundal.onclick=e=>{
-      if(e.target===fundal)fundal.remove();
-    };
-
-    fundal.append(imagine,inchide,contor);
-    document.body.appendChild(fundal);
-    actualizeaza();
-  };
-
-  visual.append(mare,galerie);
-  arata();
-
-}else if(p[1]==='Furniture Clinic Kit Pulizia Interni Auto in Pelle'){
-  const pozeFURNITURE=[
-    'FURNITURE_1.PNG',
-    'FURNITURE_2.PNG',
-    'FURNITURE_3.PNG',
-    'FURNITURE_4.PNG',
-    'FURNITURE_5.PNG',
-    'FURNITURE_6.PNG'
-  ];
-
-  let pozitie=0;
-  const mare=document.createElement('img');
-  const galerie=document.createElement('div');
-
-  visual.style.cssText='height:auto;display:flex;flex-direction:column;align-items:center;gap:10px;';
-  mare.style.cssText='width:100%;height:260px;object-fit:contain;cursor:zoom-in;';
-  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;width:100%;padding:8px;';
-
-  function arata(){
-    mare.src=pozeFURNITURE[pozitie];
-  }
-
-  pozeFURNITURE.forEach((fisier,i)=>{
-    const poza=document.createElement('img');
-    poza.src=fisier;
-    poza.style.cssText='width:65px;height:65px;object-fit:contain;cursor:pointer;flex-shrink:0;';
-    poza.onclick=()=>{pozitie=i;arata();};
-    galerie.appendChild(poza);
-  });
-
-  mare.onclick=()=>{
-    const fundal=document.createElement('div');
-    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
-
-    const imagine=document.createElement('img');
-    imagine.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
-
-    const inchide=document.createElement('button');
-    inchide.textContent='×';
-    inchide.style.cssText='position:absolute;top:20px;right:20px;color:white;background:#333;border:0;border-radius:50%;width:44px;height:44px;font-size:30px;';
-    inchide.onclick=()=>fundal.remove();
-
-    const contor=document.createElement('div');
-    contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px;';
-
-    function actualizeaza(){
-      imagine.src=pozeFURNITURE[pozitie];
-      contor.textContent=(pozitie+1)+' / '+pozeFURNITURE.length;
-    }
-
-    let startX=0;
-    fundal.addEventListener('touchstart',e=>{
-      startX=e.touches[0].clientX;
-    },{passive:true});
-
-    fundal.addEventListener('touchend',e=>{
-      const diferenta=e.changedTouches[0].clientX-startX;
-      if(Math.abs(diferenta)>40){
-        pozitie=(pozitie+(diferenta<0?1:-1)+pozeFURNITURE.length)%pozeFURNITURE.length;
-        actualizeaza();
-      }
-    });
-
-    fundal.onclick=e=>{
-      if(e.target===fundal)fundal.remove();
-    };
-
-    fundal.append(imagine,inchide,contor);
-    document.body.appendChild(fundal);
-    actualizeaza();
-  };
-
-  visual.append(mare,galerie);
-  arata();
-
-}else if(p[1]==='Mohard Supporto Telefono Auto'){
-    let img=document.createElement('img');
-    img.src='mohard.PNG';
-    img.alt=p[1];
-    img.style.width='100%';
-    img.style.height='220px';
-visual.style.height='auto';
-visual.style.display='flex';
-visual.style.flexDirection='column';
-visual.style.alignItems='center';
-visual.style.gap='10px';
-    img.style.objectFit='contain';
-  img.style.cursor='zoom-in';
-  img.onclick=()=>{
-  const poze=['mohard.PNG','mohard-2.PNG','mohard-3.PNG','mohard-4.PNG','mohard-5.PNG','mohard-6.PNG'];
-  let pozitie=poze.indexOf(img.getAttribute('src'));
-
-  const fundal=document.createElement('div');
-  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
-
-  const mare=document.createElement('img');
-  mare.style.cssText='max-width:95vw;max-height:85vh;object-fit:contain;border-radius:12px;';
-  mare.src=poze[pozitie<0?0:pozitie];
-
-  const inchide=document.createElement('button');
-  inchide.textContent='✕';
-  inchide.style.cssText='position:absolute;top:25px;right:20px;font-size:30px;color:white;background:none;border:0;';
-  inchide.onclick=()=>fundal.remove();
-
-  let startX=0;
-  fundal.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;},{passive:true});
-  fundal.addEventListener('touchend',e=>{
-    const diferenta=e.changedTouches[0].clientX-startX;
-    if(Math.abs(diferenta)>40){
-      pozitie=(pozitie+(diferenta<0?1:-1)+poze.length)%poze.length;
-      mare.src=poze[pozitie];
-    }
-  });
-
-  fundal.appendChild(mare);
-  fundal.appendChild(inchide);
-  document.body.appendChild(fundal);
-};
-
-    visual.appendChild(img);
-  
-let galerie=document.createElement('div');
-galerie.style.display='flex';
-galerie.style.gap='5px';
-galerie.style.overflowX='auto';
-
-['mohard.PNG','mohard-2.PNG','mohard-3.PNG','mohard-4.PNG','mohard-5.PNG','mohard-6.PNG'].forEach(fisier=>{
-  let poza=document.createElement('img');
-  poza.src=fisier;
-  poza.style.width='55px';
-  poza.style.height='55px';
-  poza.style.objectFit='contain';
-  poza.style.cursor='pointer';
-  poza.onclick=()=>{img.src=fisier;};
-  galerie.appendChild(poza);
-});
-
-visual.appendChild(galerie);
-  }else if(p[1]==='MR.SIGA Panni Microfibra – Set da 12'){
-  const pozeMRSIGA=[
-    'MRSIGA_1.PNG',
-    'MRSIGA_2.PNG',
-    'MRSIGA_3.PNG',
-    'MRSIGA_4.PNG',
-    'MRSIGA_5.PNG',
-    'MRSIGA_6.PNG'
-  ];
-
-  const mare=document.createElement('img');
-  const galerie=document.createElement('div');
-
-  visual.style.height='auto';
-  visual.style.display='flex';
-  visual.style.flexDirection='column';
-
-  mare.style.cssText='width:100%;height:260px;object-fit:contain;cursor:zoom-in';
-  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;padding:8px';
-
-  function arata(){
-    mare.src=pozeMRSIGA[pozitie];
-  }
-
-  let pozitie=0;
-  arata();
-mare.style.cursor='zoom-in';
-
-mare.onclick=()=>{
-  const fundal=document.createElement('div');
-  fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99999;display:flex;align-items:center;justify-content:center;';
-
-  const imagine=document.createElement('img');
-  imagine.src=pozeMRSIGA[pozitie];
-  imagine.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
-
-  const inchide=document.createElement('button');
-  inchide.textContent='×';
-  inchide.style.cssText='position:absolute;top:25px;right:20px;font-size:40px;color:white;background:none;border:0;';
-  inchide.onclick=()=>fundal.remove();
-
-  let startX=0;
-  fundal.ontouchstart=e=>{startX=e.touches[0].clientX;};
-  fundal.ontouchend=e=>{
-    const diferenta=e.changedTouches[0].clientX-startX;
-    if(Math.abs(diferenta)>50){
-      pozitie=(pozitie+(diferenta<0?1:-1)+pozeMRSIGA.length)%pozeMRSIGA.length;
-      arata();
-      imagine.src=pozeMRSIGA[pozitie];
-    }
-  };
-
-  fundal.onclick=e=>{
-    if(e.target===fundal)fundal.remove();
-  };
-
-  fundal.append(imagine,inchide);
-  document.body.appendChild(fundal);
-};
-  pozeMRSIGA.forEach((fisier,i)=>{
-    const poza=document.createElement('img');
-    poza.src=fisier;
-    poza.style.cssText='width:55px;height:55px;object-fit:contain;cursor:pointer';
-    poza.onclick=()=>{
-  pozitie=i;
-  arata();
-  mare.click();
-};
-    galerie.appendChild(poza);
-  });
-
-  visual.append(mare,galerie);
-
-}else if(p[1]==='URAQT Spazzola per Cerchi Auto in Microfibra'){
-  const pozeURAQT=[
-    'URAQT_1.PNG',
-    'URAQT_2.PNG',
-    'URAQT_3.PNG',
-    'URAQT_4.PNG',
-    'URAQT_5.PNG',
-    'URAQT_6.PNG'
-  ];
-
-  let pozitie=0;
-  const mare=document.createElement('img');
-  const galerie=document.createElement('div');
-
-  visual.style.height='auto';
-  visual.style.display='flex';
-  visual.style.flexDirection='column';
-
-  mare.style.cssText='width:100%;height:220px;object-fit:contain;cursor:zoom-in';
-  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;padding:8px';
-
-  function arata(){
-    mare.src=pozeURAQT[pozitie];
-  }
-  arata();
-
-  mare.onclick=()=>{
-    const fundal=document.createElement('div');
-    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99999;display:flex;align-items:center;justify-content:center';
-
-    const imagine=document.createElement('img');
-    imagine.style.cssText='max-width:95%;max-height:85%;object-fit:contain';
-
-    const inchide=document.createElement('button');
-    inchide.textContent='×';
-    inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:35px;color:white;background:none;border:0';
-
-    const contor=document.createElement('div');
-    contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px';
-
-    function actualizeaza(){
-      imagine.src=pozeURAQT[pozitie];
-      contor.textContent=(pozitie+1)+' / '+pozeURAQT.length;
-    }
-    actualizeaza();
-
-    let startX=0;
-    fundal.addEventListener('touchstart',e=>{
-      startX=e.touches[0].clientX;
-    },{passive:true});
-
-    fundal.addEventListener('touchend',e=>{
-      const diferenta=e.changedTouches[0].clientX-startX;
-      if(Math.abs(diferenta)>50){
-        pozitie=(pozitie+(diferenta<0?1:-1)+pozeURAQT.length)%pozeURAQT.length;
-        actualizeaza();
-        arata();
-      }
-    },{passive:true});
-
-    inchide.onclick=()=>fundal.remove();
-    fundal.onclick=e=>{
-      if(e.target===fundal)fundal.remove();
-    };
-
-    fundal.append(imagine,inchide,contor);
-    document.body.appendChild(fundal);
-  };
-
-  pozeURAQT.forEach((fisier,i)=>{
-    const poza=document.createElement('img');
-    poza.src=fisier;
-    poza.style.cssText='width:55px;height:55px;object-fit:contain;cursor:pointer';
-    poza.onclick=()=>{
-      pozitie=i;
-      arata();
-    };
-    galerie.appendChild(poza);
-  });
-
-  visual.append(mare,galerie);
-
-}else{
-    visual.textContent=p[3];}
-
-
-    let d=document.createElement('div');
-    d.className='details';
-
-    let tag=document.createElement('div');
-    tag.className='tag';
-    tag.textContent=p[0];
-
-    let h=document.createElement('h3');
-    h.textContent=p[1];
-
-    let desc=document.createElement('p');
-    desc.textContent=p[2];
-
-    let a=document.createElement('a');
-    a.className='button';
-
-    if(p[4]){
-      a.href=p[4];
-      a.target='_blank';
-      a.rel='noopener noreferrer sponsored';
-      a.classList.add('ready');
-      a.textContent='🛒 Acquista su Amazon';
-    }else{
-      a.textContent='Link Amazon in arrivo';
-      a.removeAttribute('href');
-      a.setAttribute('aria-disabled','true');
-    }
-
-    d.append(tag,h,desc,a);
-    card.append(visual,d);
-    grid.appendChild(card);
-  });
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AUTO STORE Italia: idee e accessori utili per la tua auto.">
+<title>AUTO STORE Italia | Accessori auto</title>
+
+<style>
+:root {
+  --navy:#111c31;
+  --blue:#2765ed;
+  --bg:#f4f7fb;
+  --muted:#657187;
 }
 
-search.addEventListener('input',render);
-render();
+* { box-sizing:border-box; }
 
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--navy);
+  font-family:system-ui,-apple-system,Arial,sans-serif;
+}
+
+header {
+  background:var(--navy);
+  color:white;
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+header strong { font-size:22px; }
+header span { font-size:12px;color:#a9b9d3; }
+
+.hero {
+  background:linear-gradient(115deg,#172d54,#2456a1);
+  color:white;
+  text-align:center;
+  padding:55px 20px;
+}
+
+.hero h1 {
+  font-size:clamp(30px,5vw,48px);
+  margin:0 0 12px;
+}
+
+.hero p {
+  color:#dce8ff;
+  font-size:17px;
+  max-width:650px;
+  margin:auto;
+}
+
+.wrap {
+  max-width:1150px;
+  margin:auto;
+  padding:30px 18px;
+}
+
+.controls { margin:22px 0; }
+
+.controls input {
+  width:100%;
+  max-width:420px;
+  padding:15px;
+  border:1px solid #d8dfec;
+  border-radius:14px;
+  font-size:16px;
+}
+
+.filters {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.filters button {
+  border:1px solid #d5ddec;
+  border-radius:24px;
+  background:white;
+  color:#243651;
+  padding:10px 14px;
+  font-weight:650;
+  cursor:pointer;
+}
+
+.filters button.active {
+  background:var(--blue);
+  color:white;
+  border-color:var(--blue);
+}
+
+.count {
+  color:var(--muted);
+  font-size:14px;
+  margin:16px 0;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));
+  gap:18px;
+}
+
+.card {
+  background:white;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 8px 24px #152b4a0d;
+  border:1px solid #e8edf5;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+
+.visual {
+  height:220px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#e9f0ff,#f7f9fd);
+  font-size:64px;
+  overflow:hidden;
+}
+
+.visual.has-images {
+  height:auto;
+  display:block;
+  font-size:initial;
+}
+
+.main-photo {
+  display:block;
+  width:100%;
+  height:240px;
+  object-fit:contain;
+  cursor:zoom-in;
+}
+
+.thumbs {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:8px;
+}
+
+.thumb {
+  width:54px;
+  height:54px;
+  object-fit:contain;
+  flex:0 0 54px;
+  border:2px solid transparent;
+  border-radius:7px;
+  cursor:pointer;
+  background:white;
+}
+
+.thumb.selected {
+  border-color:var(--blue);
+}
+
+.details {
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+
+.tag {
+  font-size:12px;
+  color:#3161af;
+  font-weight:700;
+}
+
+.details h3 {
+  font-size:18px;
+  margin:9px 0;
+}
+
+.details p {
+  color:#637087;
+  font-size:14px;
+  line-height:1.55;
+  margin:0 0 18px;
+}
+
+.button {
+  margin-top:auto;
+  display:block;
+  background:#e8eefb;
+  color:#5d6b83;
+  text-decoration:none;
+  border-radius:11px;
+  padding:12px;
+  text-align:center;
+  font-weight:700;
+}
+
+.button.ready {
+  background:#2464e8;
+  color:white;
+}
+
+.notice {
+  margin:34px 0;
+  background:#e9f0fb;
+  padding:20px;
+  border-radius:14px;
+  color:#3d526f;
+  font-size:14px;
+  line-height:1.6;
+}
+
+footer {
+  text-align:center;
+  background:var(--navy);
+  color:#c3d0e6;
+  padding:28px 18px;
+  font-size:13px;
+}
+
+footer strong { color:white; }
+
+.lightbox[hidden] { display:none; }
+
+.lightbox {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.94);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  touch-action:pan-y;
+}
+
+.lightbox img {
+  max-width:94vw;
+  max-height:84vh;
+  object-fit:contain;
+}
+
+.lightbox button {
+  position:absolute;
+  border:0;
+  color:white;
+  background:#333c;
+  border-radius:50%;
+  width:46px;
+  height:46px;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.close { top:18px;right:18px; }
+.prev { left:10px;top:50%; }
+.next { right:10px;top:50%; }
+
+.counter {
+  position:absolute;
+  bottom:22px;
+  color:white;
+  background:#333c;
+  padding:8px 14px;
+  border-radius:20px;
+  font-size:15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <strong>🚘 AUTO STORE <span>Italia</span></strong>
+  <span>Accessori auto selezionati</span>
+</header>
+
+<section class="hero">
+  <h1>La tua auto, più comoda.</h1>
+  <p>Scopri <span id="hero-count"></span> idee per organizzare, proteggere e migliorare ogni viaggio.</p>
+</section>
+
+<main class="wrap">
+  <h2>Scopri gli accessori</h2>
+
+  <div class="controls">
+    <input id="search" type="search" placeholder="🔎 Cerca un prodotto..." aria-label="Cerca un prodotto">
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <p class="count" id="count"></p>
+
+  <section class="grid" id="grid" aria-label="Prodotti"></section>
+
+  <aside class="notice">
+    <strong>Trasparenza:</strong>
+    In qualità di Affiliato Amazon, ricevo un guadagno dagli acquisti idonei.
+    Alcuni link presenti su questo sito sono link di affiliazione.
+    Le schede presentano idee di prodotto, non offerte o prezzi verificati.
+  </aside>
+</main>
+
+<footer>
+  <strong>AUTO STORE Italia</strong>
+  <p>Idee e accessori per la tua auto · © 2026</p>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galleria fotografica" hidden>
+  <button class="close" id="close" aria-label="Chiudi">×</button>
+  <button class="prev" id="prev" aria-label="Foto precedente">‹</button>
+  <img id="lightbox-image" alt="Foto prodotto">
+  <button class="next" id="next" aria-label="Foto successiva">›</button>
+  <div class="counter" id="counter"></div>
+</div>
+
+<script>
+const catalog = [
+  {
+    category:"Tecnologia",
+    name:"Supporto magnetico LISEN",
+    description:"Supporto magnetico per smartphone con rotazione a 360°, design pieghevole e fissaggio a ventosa. Pratico per la navigazione durante i viaggi in auto.",
+    emoji:"📱",
+    url:"https://link.amazon/B095SMPBw",
+    images:["IMG_0577.jpeg","lisen-2.PNG","lisen-3.PNG","lisen-4.PNG","lisen-5.PNG","lisen-6.PNG"]
+  },
+  {
+    category:"Organizzazione",
+    name:"Seggiolino Auto Gap Filler Pad",
+    description:"Impedisce a chiavi, monete e piccoli oggetti di cadere tra i sedili.",
+    emoji:"🚗",
+    url:"https://www.amazon.it/dp/B09L11HDWT?tag=autostoreital-21",
+    images:["GAP_01.PNG","GAP_02.PNG","GAP_03.PNG","GAP_04.PNG","GAP_05.PNG","GAP_06.PNG"]
+  },
+  {
+    category:"Organizzazione",
+    name:"ATHLON TOOLS Organizer per bagagliaio",
+    description:"Organizza il bagagliaio della tua auto con ATHLON TOOLS! Pratico e pieghevole, con struttura rinforzata, superficie antiscivolo e comode maniglie per il trasporto. Ideale per tenere in ordine accessori, spesa e oggetti di uso quotidiano.",
+    emoji:"📦",
+    url:"https://www.amazon.it/dp/B09ZHVSV9V?tag=autostoreital-21",
+    images:["ATHLON_1.PNG","ATHLON_2.PNG","ATHLON_3.PNG","ATHLON_4.PNG","ATHLON_5.PNG","ATHLON_6.PNG"]
+  },
+  {
+    category:"Organizzazione",
+    name:"Einesin Organizer Sedile Auto con Tavolino",
+    description:"Rendi ogni viaggio più comodo e organizzato con Einesin! Questo pratico organizer per il retro del sedile è dotato di tavolino pieghevole, tasca trasparente per tablet e scomparti per bevande, giochi e piccoli accessori. Aiuta a proteggere lo schienale da sporco e impronte ed è ideale per i viaggi in famiglia, soprattutto con bambini.",
+    emoji:"👜",
+    url:"https://www.amazon.it/dp/B0DDK94RFG?tag=autostoreital-21",
+    images:["EINESIN_1.PNG","EINESIN_2.PNG","EINESIN_3.PNG","EINESIN_4.PNG","EINESIN_5.PNG","EINESIN_6.PNG"]
+  },
+  {
+    category:"Organizzazione",
+    name:"Pubblimania Portadocumenti Auto Moto",
+    description:"Tieni tutti i documenti della tua auto sempre in ordine con il portadocumenti Pubblimania, realizzato in Italia. Dotato di chiusura a due ante e pratiche tasche interne per libretto di circolazione, patente, assicurazione e altri documenti importanti. Compatto, elegante e comodo da tenere nel vano portaoggetti.",
+    emoji:"📁",
+    url:"https://www.amazon.it/dp/B0CL7GZHS1?tag=autostoreital-21",
+    images:["PUBBLIMANIA_1.PNG","PUBBLIMANIA_2.PNG","PUBBLIMANIA_3.PNG","PUBBLIMANIA_4.PNG","PUBBLIMANIA_5.PNG","PUBBLIMANIA_6.PNG"]
+  },
+  {
+    category:"Organizzazione",
+    name:"URAQT Ganci Poggiatesta Auto – Set da 4",
+    description:"Mantieni la tua auto sempre ordinata con i pratici ganci poggiatesta URAQT! Il set comprende 4 ganci resistenti, ideali per appendere borse della spesa, zaini, borsette e piccoli accessori. Si installano facilmente ai poggiatesta dei sedili anteriori, senza bisogno di attrezzi. Una soluzione semplice e funzionale per evitare che gli oggetti cadano durante il viaggio e sfruttare meglio lo spazio all’interno dell’auto.",
+    emoji:"🪝",
+    url:"https://www.amazon.it/dp/B0C555GQXZ?tag=autostoreital-21",
+    images:["URAQT_1.PNG","URAQT_2.PNG","URAQT_3.PNG","URAQT_4.PNG","URAQT_5.PNG","URAQT_6.PNG"]
+  },
+  {
+    category:"Tecnologia",
+    name:"Mohard Supporto Telefono Auto",
+    description:"Supporto per smartphone da auto con fissaggio alla bocchetta dell’aria, rotazione a 360° e presa stabile. Compatibile con telefoni da 4 a 7 pollici.",
+    emoji:"📱",
+    url:"https://link.amazon/B02RqcWYM",
+    images:["mohard.PNG","mohard-2.PNG","mohard-3.PNG","mohard-4.PNG","mohard-5.PNG","mohard-6.PNG"]
+  },
+  {
+    category:"Pulizia",
+    name:"Furniture Clinic Kit Pulizia Interni Auto in Pelle",
+    description:"Prenditi cura degli interni della tua auto con il kit Furniture Clinic! Questo pratico set comprende un detergente per pelle da 250 ml, un balsamo protettivo da 250 ml e accessori riutilizzabili per l’applicazione. Ideale per pulire, nutrire e proteggere sedili e rivestimenti in pelle, aiutando a mantenerli in buone condizioni nel tempo. Una soluzione completa per la manutenzione degli interni della tua auto.",
+    emoji:"🧽",
+    url:"https://www.amazon.it/dp/B08W4KSQ53?tag=autostoreital-21",
+    images:["FURNITURE_1.PNG","FURNITURE_2.PNG","FURNITURE_3.PNG","FURNITURE_4.PNG","FURNITURE_5.PNG","FURNITURE_6.PNG"]
+  },
+  {
+    category:"Pulizia",
+    name:"MR.SIGA Panni Microfibra – Set da 12",
+    description:"Mantieni la tua auto pulita con i panni in microfibra MR.SIGA! Questa confezione comprende 12 panni neri da 32 × 32 cm, morbidi, assorbenti e riutilizzabili. Ideali per la pulizia di cruscotto, vetri, specchietti e altre superfici delicate. Aiutano a rimuovere polvere e sporco senza lasciare pelucchi e possono essere lavati e riutilizzati più volte.",
+    emoji:"🧽",
+    url:"https://www.amazon.it/dp/B09573GMW6?tag=autostoreital-21&linkCode=ll2&linkId=dd1fd8cb4d258b3a4e9ca76a0ddf95c5",
+    images:["MRSIGA_1.PNG","MRSIGA_2.PNG","MRSIGA_3.PNG","MRSIGA_4.PNG","MRSIGA_5.PNG","MRSIGA_6.PNG"]
+  },
+  {
+    category:"Pulizia",
+    name:"URAQT Spazzola per Cerchi Auto in Microfibra",
+    description:"Prenditi cura dei cerchi della tua auto con la spazzola URAQT in microfibra! Pratica per rimuovere polvere, sporco e residui dalla superficie dei cerchioni. Ideale per la pulizia regolare delle ruote e per raggiungere le zone più difficili. Un accessorio utile per mantenere i cerchi puliti e curati.",
+    emoji:"🛞",
+    url:"https://www.amazon.it/dp/B09JZM33WK?tag=autostoreital-21",
+    images:[]
+  },
+  {
+    category:"Pulizia",
+    name:"Tappetini universali",
+    description:"Proteggi il pavimento dell’auto.",
+    emoji:"🚙",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Pulizia",
+    name:"Cestino per auto",
+    description:"Raccogli i piccoli rifiuti.",
+    emoji:"🗑️",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Comfort",
+    name:"Cuscino lombare",
+    description:"Supporto per viaggi lunghi.",
+    emoji:"💺",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Comfort",
+    name:"Parasole parabrezza",
+    description:"Aiuta a schermare il sole.",
+    emoji:"☀️",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Comfort",
+    name:"Tendine laterali",
+    description:"Più ombra per i passeggeri.",
+    emoji:"🌤️",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Comfort",
+    name:"Copris sedile",
+    description:"Protezione aggiuntiva del sedile.",
+    emoji:"🪑",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Comfort",
+    name:"Portabicchieri aggiuntivo",
+    description:"Bevande più a portata di mano.",
+    emoji:"🥤",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Sicurezza",
+    name:"Giubbotto riflettente",
+    description:"Da tenere a bordo secondo le norme.",
+    emoji:"🦺",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Sicurezza",
+    name:"Triangolo emergenza",
+    description:"Accessori per le soste di emergenza.",
+    emoji:"⚠️",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Sicurezza",
+    name:"Torcia LED",
+    description:"Illuminazione utile in emergenza.",
+    emoji:"🔦",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Sicurezza",
+    name:"Martelletto di emergenza",
+    description:"Da valutare per il kit di sicurezza.",
+    emoji:"🔨",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Sicurezza",
+    name:"Manometro pneumatici",
+    description:"Controlla la pressione delle gomme.",
+    emoji:"📏",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Viaggio",
+    name:"Borsa termica auto",
+    description:"Per snack e bevande durante il viaggio.",
+    emoji:"🧊",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Viaggio",
+    name:"Supporto tablet poggiatesta",
+    description:"Intrattenimento per i passeggeri.",
+    emoji:"📺",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Viaggio",
+    name:"Coperta da viaggio",
+    description:"Per le soste e i lunghi tragitti.",
+    emoji:"🧣",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Viaggio",
+    name:"Borsa porta cavi",
+    description:"Tieni in ordine i caricabatterie.",
+    emoji:"🎒",
+    url:"",
+    images:[]
+  },
+  {
+    category:"Viaggio",
+    name:"Organizer documenti viaggio",
+    description:"Biglietti e documenti in un posto.",
+    emoji:"🗂️",
+    url:"",
+    images:[]
+  }
+];
+
+const $ = id => document.getElementById(id);
+
+const grid = $("grid");
+const filters = $("filters");
+const search = $("search");
+
+const categories = [
+  "Tutti",
+  ...new Set(catalog.map(p => p.category))
+];
+
+let active = "Tutti";
+
+$("hero-count").textContent = catalog.length;
+
+const lightbox = $("lightbox");
+const large = $("lightbox-image");
+const counter = $("counter");
+
+let currentImages = [];
+let currentIndex = 0;
+
+function showLightbox() {
+  large.src = currentImages[currentIndex];
+  counter.textContent =
+    (currentIndex + 1) + " / " + currentImages.length;
+}
+
+function openLightbox(images,index) {
+  currentImages = images;
+  currentIndex = index;
+  showLightbox();
+  lightbox.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  lightbox.hidden = true;
+  large.removeAttribute("src");
+  document.body.style.overflow = "";
+}
+
+function step(delta) {
+  currentIndex =
+    (currentIndex + delta + currentImages.length)
+    % currentImages.length;
+
+  showLightbox();
+}
+
+$("close").onclick = closeLightbox;
+$("prev").onclick = () => step(-1);
+$("next").onclick = () => step(1);
+
+lightbox.addEventListener("click", e => {
+  if(e.target === lightbox) closeLightbox();
+});
+
+let startX = null;
+
+lightbox.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+},{passive:true});
+
+lightbox.addEventListener("touchend", e => {
+  if(startX === null) return;
+
+  const dx = e.changedTouches[0].clientX - startX;
+  startX = null;
+
+  if(Math.abs(dx) > 45) {
+    step(dx < 0 ? 1 : -1);
+  }
+},{passive:true});
+
+document.addEventListener("keydown", e => {
+  if(lightbox.hidden) return;
+
+  if(e.key === "Escape") closeLightbox();
+  if(e.key === "ArrowRight") step(1);
+  if(e.key === "ArrowLeft") step(-1);
+});
+
+function create(tag,cls,text) {
+  const el = document.createElement(tag);
+
+  if(cls) el.className = cls;
+  if(text !== undefined) el.textContent = text;
+
+  return el;
+}
+
+function createVisual(product) {
+  const visual = create("div","visual");
+
+  if(!product.images.length) {
+    visual.textContent = product.emoji;
+    return visual;
+  }
+
+  visual.classList.add("has-images");
+
+  const main = create("img","main-photo");
+
+  main.alt = product.name;
+  main.loading = "lazy";
+  main.decoding = "async";
+  main.src = product.images[0];
+
+  let selected = 0;
+
+  const thumbs = create("div","thumbs");
+
+  product.images.forEach((file,i) => {
+    const thumb = create(
+      "img",
+      "thumb" + (i === 0 ? " selected" : "")
+    );
+
+    thumb.src = file;
+    thumb.alt = product.name + " – foto " + (i+1);
+    thumb.loading = "lazy";
+    thumb.decoding = "async";
+
+    thumb.onclick = () => {
+      selected = i;
+      main.src = file;
+
+      thumbs.querySelectorAll("img").forEach((t,j) => {
+        t.classList.toggle("selected",i === j);
+      });
+    };
+
+    thumbs.appendChild(thumb);
+  });
+
+  main.onclick = () => {
+    openLightbox(product.images,selected);
+  };
+
+  main.onerror = () => {
+    main.style.visibility = "hidden";
+  };
+
+  visual.append(main,thumbs);
+
+  return visual;
+}
+
+function render() {
+  filters.replaceChildren();
+
+  categories.forEach(category => {
+    const button = create(
+      "button",
+      category === active ? "active" : "",
+      category
+    );
+
+    button.onclick = () => {
+      active = category;
+      render();
+    };
+
+    filters.appendChild(button);
+  });
+
+  const q = search.value.trim().toLocaleLowerCase("it");
+
+  const rows = catalog.filter(p =>
+    (active === "Tutti" || p.category === active) &&
+    [
+      p.category,
+      p.name,
+      p.description,
+      p.emoji
+    ].join(" ").toLocaleLowerCase("it").includes(q)
+  );
+
+  $("count").textContent = rows.length + " prodotti";
+
+  const cards = rows.map(p => {
+    const card = create("article","card");
+    const details = create("div","details");
+
+    const tag = create("div","tag",p.category);
+    const title = create("h3","",p.name);
+    const description = create("p","",p.description);
+    const link = create("a","button");
+
+    if(p.url) {
+      link.href = p.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer sponsored";
+      link.classList.add("ready");
+      link.textContent = "🛒 Acquista su Amazon";
+    } else {
+      link.textContent = "Link Amazon in arrivo";
+      link.setAttribute("aria-disabled","true");
+    }
+
+    details.append(tag,title,description,link);
+    card.append(createVisual(p),details);
+
+    return card;
+  });
+
+  grid.replaceChildren(...cards);
+}
+
+search.addEventListener("input",render);
+
+render();
 </script>
 </body>
 </html>
