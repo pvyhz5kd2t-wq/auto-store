@@ -761,6 +761,82 @@ mare.onclick=()=>{
 
   visual.append(mare,galerie);
 
+}else if(p[1]==='URAQT Spazzola per Cerchi Auto in Microfibra'){
+  const pozeSPAZZOLA=[
+    'SPAZZOLA_CERCHI_01.PNG',
+    'SPAZZOLA_CERCHI_02.PNG',
+    'SPAZZOLA_CERCHI_03.PNG',
+    'SPAZZOLA_CERCHI_04.PNG',
+    'SPAZZOLA_CERCHI_05.PNG',
+    'SPAZZOLA_CERCHI_06.PNG'
+  ];
+
+  let pozitie=0;
+  const mare=document.createElement('img');
+  const galerie=document.createElement('div');
+
+  visual.style.cssText='height:auto;display:flex;flex-direction:column;align-items:center;gap:10px;';
+  mare.style.cssText='width:100%;height:260px;object-fit:contain;cursor:zoom-in;';
+  galerie.style.cssText='display:flex;gap:8px;overflow-x:auto;width:100%;padding:8px;';
+
+  function arata(){
+    mare.src=pozeSPAZZOLA[pozitie];
+  }
+
+  pozeSPAZZOLA.forEach((fisier,i)=>{
+    const poza=document.createElement('img');
+    poza.src=fisier;
+    poza.loading='lazy';
+    poza.style.cssText='width:65px;height:65px;object-fit:contain;cursor:pointer;flex-shrink:0;';
+    poza.onclick=()=>{pozitie=i;arata();};
+    galerie.appendChild(poza);
+  });
+
+  mare.onclick=()=>{
+    const fundal=document.createElement('div');
+    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
+
+    const imagine=document.createElement('img');
+    imagine.style.cssText='max-width:95%;max-height:85%;object-fit:contain;';
+
+    const inchide=document.createElement('button');
+    inchide.textContent='×';
+    inchide.style.cssText='position:absolute;top:20px;right:20px;font-size:36px;color:white;background:none;border:0;';
+    inchide.onclick=()=>fundal.remove();
+
+    const contor=document.createElement('div');
+    contor.style.cssText='position:absolute;bottom:25px;color:white;font-size:18px;';
+
+    function actualizeaza(){
+      imagine.src=pozeSPAZZOLA[pozitie];
+      contor.textContent=(pozitie+1)+' / '+pozeSPAZZOLA.length;
+    }
+
+    let startX=0;
+    fundal.addEventListener('touchstart',e=>{
+      startX=e.touches[0].clientX;
+    },{passive:true});
+
+    fundal.addEventListener('touchend',e=>{
+      const diferenta=e.changedTouches[0].clientX-startX;
+      if(Math.abs(diferenta)>40){
+        pozitie=(pozitie+(diferenta<0?1:-1)+pozeSPAZZOLA.length)%pozeSPAZZOLA.length;
+        actualizeaza();
+      }
+    });
+
+    fundal.onclick=e=>{
+      if(e.target===fundal)fundal.remove();
+    };
+
+    fundal.append(imagine,inchide,contor);
+    document.body.appendChild(fundal);
+    actualizeaza();
+  };
+
+  visual.append(mare,galerie);
+  arata();
+
 }else{
     visual.textContent=p[3];}
 
