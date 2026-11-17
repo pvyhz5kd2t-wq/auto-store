@@ -1025,6 +1025,129 @@ mare.onclick=()=>{
   arata();
 
 
+else if(p[1]==='Simpeak Protezione Parabrezza Auto'){
+
+  const fotoSIMPEAK=[
+    'SIMPEAK_01.PNG',
+    'SIMPEAK_02.PNG',
+    'SIMPEAK_03.PNG',
+    'SIMPEAK_04.PNG',
+    'SIMPEAK_05.PNG',
+    'SIMPEAK_06.PNG'
+  ];
+
+  visual.style.height='auto';
+  visual.style.display='flex';
+  visual.style.flexDirection='column';
+  visual.style.padding='0';
+  visual.style.overflow='hidden';
+
+  const mare=document.createElement('img');
+  mare.src=fotoSIMPEAK[0];
+  mare.alt='Simpeak Protezione Parabrezza Auto';
+  mare.style.cssText='width:100%;height:260px;object-fit:contain;background:white;cursor:pointer;display:block;';
+
+  const galerie=document.createElement('div');
+  galerie.style.cssText='display:flex;gap:7px;padding:10px;overflow-x:auto;background:#f1f5ff;';
+
+  fotoSIMPEAK.forEach((fisier,index)=>{
+    const poza=document.createElement('img');
+    poza.src=fisier;
+    poza.alt='Simpeak foto '+(index+1);
+    poza.loading='lazy';
+    poza.style.cssText='width:65px;height:65px;object-fit:cover;border-radius:7px;cursor:pointer;flex-shrink:0;background:white;';
+
+    poza.onclick=()=>{
+      mare.src=fisier;
+    };
+
+    galerie.appendChild(poza);
+  });
+
+  visual.append(mare,galerie);
+
+  mare.onclick=()=>{
+
+    let pozitie=fotoSIMPEAK.indexOf(
+      mare.getAttribute('src')
+    );
+
+    if(pozitie<0) pozitie=0;
+
+    const fundal=document.createElement('div');
+    fundal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:99999;display:flex;align-items:center;justify-content:center;touch-action:pan-y;';
+
+    const imagine=document.createElement('img');
+    imagine.style.cssText='max-width:95vw;max-height:85vh;object-fit:contain;user-select:none;-webkit-user-select:none;';
+
+    const inchide=document.createElement('button');
+    inchide.textContent='✕';
+    inchide.style.cssText='position:absolute;top:25px;right:20px;background:#333;color:white;border:1px solid #777;border-radius:50%;width:45px;height:45px;font-size:25px;cursor:pointer;z-index:2;';
+
+    const contor=document.createElement('div');
+    contor.style.cssText='position:absolute;bottom:30px;left:0;width:100%;text-align:center;color:white;font-size:18px;';
+
+    function actualizeaza(){
+      imagine.src=fotoSIMPEAK[pozitie];
+      contor.textContent=(pozitie+1)+' / '+fotoSIMPEAK.length;
+    }
+
+    function urmatoarea(){
+      pozitie=(pozitie+1)%fotoSIMPEAK.length;
+      actualizeaza();
+    }
+
+    function precedenta(){
+      pozitie=(pozitie-1+fotoSIMPEAK.length)%fotoSIMPEAK.length;
+      actualizeaza();
+    }
+
+    let startX=0;
+
+    fundal.addEventListener('touchstart',e=>{
+      startX=e.touches[0].clientX;
+    },{passive:true});
+
+    fundal.addEventListener('touchend',e=>{
+      const diferenta=e.changedTouches[0].clientX-startX;
+
+      if(Math.abs(diferenta)>40){
+        if(diferenta<0){
+          urmatoarea();
+        }else{
+          precedenta();
+        }
+      }
+    },{passive:true});
+
+    inchide.onclick=()=>{
+      fundal.remove();
+    };
+
+    fundal.onclick=e=>{
+      if(e.target===fundal){
+        fundal.remove();
+      }
+    };
+
+    const tasta=e=>{
+      if(e.key==='Escape'){
+        fundal.remove();
+        document.removeEventListener('keydown',tasta);
+      }
+      if(e.key==='ArrowRight') urmatoarea();
+      if(e.key==='ArrowLeft') precedenta();
+    };
+
+    document.addEventListener('keydown',tasta);
+
+    fundal.append(imagine,inchide,contor);
+    document.body.appendChild(fundal);
+
+    actualizeaza();
+  };
+}
+
 
 }else{
   visual.textContent=p[3];
